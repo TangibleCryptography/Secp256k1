@@ -5,7 +5,7 @@ namespace Secp256k1
 {
     public class MessageSignerVerifier
     {
-        private ECDsaSigner signer = new ECDsaSigner();
+        private readonly ECDsaSigner signer = new ECDsaSigner();
 
         public bool Verify(SignedMessage message)
         {
@@ -15,8 +15,8 @@ namespace Secp256k1
             Buffer.BlockCopy(message.SignatureBytes, 33, s, 0, 32);
             var recId = message.SignatureBytes[0] - 27;
 
-            var magicData = VariableLengthEncoding.GetVariableLengthStringBytes("Bitcoin Signed Message:\n");
-            var messageData = VariableLengthEncoding.GetVariableLengthStringBytes(message.Message);
+            var magicData = ("Bitcoin Signed Message:\n").GetVarString();
+            var messageData = message.Message.GetVarString();
 
             var data = new byte[magicData.Length + messageData.Length];
             Buffer.BlockCopy(magicData, 0, data, 0, magicData.Length);
@@ -33,28 +33,24 @@ namespace Secp256k1
             var address = Base58.EncodeWithCheckSum(addressBytes);
 
             if (address == message.Address)
-            {
                 return true;
-            }
             return false;
         }
 
         public SignedMessage Sign(BigInteger privateKey, string message)
         {
-            var magicData = VariableLengthEncoding.GetVariableLengthStringBytes("Bitcoin Signed Message:\n");
-            var messageData = VariableLengthEncoding.GetVariableLengthStringBytes(message);
+            var magicData = ("Bitcoin Signed Message:\n").GetVarString();
+            var messageData = message.GetVarString();
 
             var data = new byte[magicData.Length + messageData.Length];
             Buffer.BlockCopy(magicData, 0, data, 0, magicData.Length);
             Buffer.BlockCopy(messageData, 0, data, magicData.Length, messageData.Length);
 
             var hash = SHA256.DoubleHash(data);
-
-            var signature = signer.GenerateSignature(privateKey, hash);//, Hex.HexToBigInteger("49ba5e10448bd527da764f0a388bbc1559cc93ea970f8564ac63a0c5e0e7e8bf"));
+            var signature = signer.GenerateSignature(privateKey, hash);
 
             var recId = -1;
-
-            var publicKey = Secp256k1.G.Multiply(privateKey); 
+            var publicKey = Secp256k1.G.Multiply(privateKey);
 
             for (var i = 0; i < 4; i++)
             {
@@ -70,7 +66,7 @@ namespace Secp256k1
 
             var signatureBytes = new byte[65];
 
-            signatureBytes[0] = (byte)(27 + recId);
+            signatureBytes[0] = (byte) (27 + recId);
             var rByteArray = signature[0].ToByteArrayUnsigned(true);
             var sByteArray = signature[1].ToByteArrayUnsigned(true);
 
