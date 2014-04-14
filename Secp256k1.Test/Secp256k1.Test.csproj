@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base58Tests.cs" />
+    <Compile Include="HexStringTests.cs" />
     <Compile Include="RipeMd160Tests.cs" />
     <Compile Include="Sha256Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

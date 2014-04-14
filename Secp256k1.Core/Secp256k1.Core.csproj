@@ -45,7 +45,8 @@
     <Compile Include="ECElGamal.cs" />
     <Compile Include="ECEncryption.cs" />
     <Compile Include="ECPoint.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Extensions\BigIntExtensions.cs" />
+    <Compile Include="Extensions\VarIntExtensions.cs" />
     <Compile Include="Hash160.cs" />
     <Compile Include="Hex.cs" />
     <Compile Include="MessageSignerVerifier.cs" />
@@ -54,8 +55,11 @@
     <Compile Include="Secp256k1.cs" />
     <Compile Include="SHA256.cs" />
     <Compile Include="SignedMessage.cs" />
-    <Compile Include="VariableLengthEncoding.cs" />
+    <Compile Include="VarInt.cs" />
+    <Compile Include="Extensions\VarStringExtensions.cs" />
+    <Compile Include="VarString.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
