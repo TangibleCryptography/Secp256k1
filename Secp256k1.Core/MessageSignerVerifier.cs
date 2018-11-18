@@ -73,7 +73,7 @@ namespace Secp256k1
             Buffer.BlockCopy(rByteArray, 0, signatureBytes, 1 + (32 - rByteArray.Length), rByteArray.Length);
             Buffer.BlockCopy(sByteArray, 0, signatureBytes, 33 + (32 - sByteArray.Length), sByteArray.Length);
 
-            var signedMessage = new SignedMessage(message, publicKey.GetBitcoinAddress(), signatureBytes);
+            var signedMessage = new SignedMessage(message, publicKey.GetBitcoinAddress(false), signatureBytes);
 
             return signedMessage;
         }
